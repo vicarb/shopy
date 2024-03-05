@@ -23,6 +23,7 @@
 		B3A0AE282B96388C002C4A0F /* ProductRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE272B96388C002C4A0F /* ProductRow.swift */; };
 		B3A0AE2D2B965BF9002C4A0F /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE2C2B965BF9002C4A0F /* Color+Extensions.swift */; };
 		B3A0AE2F2B965D23002C4A0F /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE2E2B965D23002C4A0F /* ProductCard.swift */; };
+		B3A0AE312B96ADEF002C4A0F /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE302B96ADEF002C4A0F /* ProductDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		B3A0AE272B96388C002C4A0F /* ProductRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRow.swift; sourceTree = "<group>"; };
 		B3A0AE2C2B965BF9002C4A0F /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		B3A0AE2E2B965D23002C4A0F /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
+		B3A0AE302B96ADEF002C4A0F /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				B3A0AE252B963876002C4A0F /* HomeView.swift */,
 				B3A0AE272B96388C002C4A0F /* ProductRow.swift */,
 				B3A0AE2E2B965D23002C4A0F /* ProductCard.swift */,
+				B3A0AE302B96ADEF002C4A0F /* ProductDetailView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				B3A0AE202B9636A4002C4A0F /* Order.swift in Sources */,
 				B3A0AE242B963854002C4A0F /* ProductListViewModel.swift in Sources */,
 				B327F6592B9600DB003ECB20 /* shopyApp.swift in Sources */,
+				B3A0AE312B96ADEF002C4A0F /* ProductDetailView.swift in Sources */,
 				B3A0AE2D2B965BF9002C4A0F /* Color+Extensions.swift in Sources */,
 				B3A0AE262B963876002C4A0F /* HomeView.swift in Sources */,
 				B3A0AE1C2B963688002C4A0F /* Product.swift in Sources */,

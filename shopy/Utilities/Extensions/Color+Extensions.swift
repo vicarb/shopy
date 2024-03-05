@@ -15,4 +15,6 @@ extension Color {
     static let backgroundColor = Color("Background")
     static let textColor = Color("Text")
     static let headerBackground = Color("SkyBlue")
+    static let midnightBlue = Color("midnightBlue")
+    static let whisperWhite = Color("whisperWhite")
 }
