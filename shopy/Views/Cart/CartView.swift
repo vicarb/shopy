@@ -12,7 +12,7 @@ struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
     
     var body: some View {
-        ZStack(alignment: Alignment.topTrailing) {
+        ZStack(alignment: .topTrailing) {
             // Semi-transparent background that covers the whole screen
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
@@ -31,7 +31,7 @@ struct CartView: View {
                 // "X" Close button within a horizontal stack
                 HStack {
                     Button(action: {
-                        withAnimation {
+                        withAnimation(.easeInOut(duration: 0.3)) {
                             cartManager.isCartVisible = false // Toggles the cart visibility
                         }
                     }) {
@@ -42,6 +42,7 @@ struct CartView: View {
                             .clipShape(Circle())
                     }
                     .padding(.leading, 20) // Left padding to avoid the edge
+                    .padding(.top, 20) // Top padding to lower the button slightly from the top edge
                     
                     Spacer() // Pushes the button to the left
                 }
@@ -75,9 +76,11 @@ struct CartView: View {
             .cornerRadius(20) // Rounds the corners of the cart content area
             .shadow(radius: 5) // Adds a shadow for visual depth
             .offset(x: cartManager.isCartVisible ? 0 : UIScreen.main.bounds.width, y: 0) // Controls the slide-in animation
-            .animation(.easeInOut(duration: 0.3), value: cartManager.isCartVisible) // Animates the slide-in effect
+            // Animation now applied directly to offset modifier
             .edgesIgnoringSafeArea(.all) // Ensures the cart content covers the entire screen, including the safe area
         }
+        // Moving the animation modifier here to ensure it's consistently applied to the view
+        .animation(.easeInOut(duration: 0.3), value: cartManager.isCartVisible)
     }
     
     func removeItems(at offsets: IndexSet) {

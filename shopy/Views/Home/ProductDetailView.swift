@@ -3,22 +3,24 @@ import SwiftUI
 
 struct ProductDetailView: View {
     var product: Product
-    @EnvironmentObject var cartManager: CartManager  // Access CartManager
+    @EnvironmentObject var cartManager: CartManager
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 AsyncImage(url: URL(string: product.imageUrl)) { image in
                     image.resizable()
-                         .aspectRatio(contentMode: .fit)
-                         .frame(maxWidth: .infinity, maxHeight: 300)
-                         .cornerRadius(10)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxWidth: .infinity, maxHeight: 300)
+                        .cornerRadius(10)
                 } placeholder: {
                     Color.gray.opacity(0.3)
                         .frame(height: 300)
                         .cornerRadius(10)
                 }
-                .padding(.top, 60)
+                // Increase the top padding to move content down, away from the notch.
+                // Consider using GeometryReader if you need to adjust based on device specifics.
+                .padding(.top, 100) // Increased padding at the top
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(product.title)
@@ -37,8 +39,9 @@ struct ProductDetailView: View {
                 .padding([.horizontal, .bottom])
 
                 Button(action: {
-                    // Action to add the product to the cart
-                    cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
+                    withAnimation {
+                        cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
+                    }
                 }) {
                     Text("Add to Cart")
                         .foregroundColor(.white)
@@ -54,22 +57,25 @@ struct ProductDetailView: View {
         .edgesIgnoringSafeArea(.all)
         .navigationBarTitle(Text(product.title), displayMode: .inline)
         .toolbar {
-            // Add a ToolbarItem for the cart icon
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    withAnimation { // Ensure this withAnimation wraps the visibility toggle
-                        cartManager.isCartVisible.toggle()
-                    }
-                }) {
-                    Image(systemName: "cart")
-                    Text("\(cartManager.cartItems.count)")
-                        .foregroundColor(.white)
-                        .padding(5)
-                        .background(cartManager.cartItems.isEmpty ? Color.clear : Color.red) // Conditionally show a red background if there are items in the cart
-                        .clipShape(Circle())
-                        .offset(x: -10, y: -10)
-                }
+                cartButton
             }
+        }
+    }
+    
+    private var cartButton: some View {
+        Button(action: {
+            withAnimation {
+                cartManager.isCartVisible.toggle()
+            }
+        }) {
+            Image(systemName: "cart")
+            Text("\(cartManager.cartItems.count)")
+                .foregroundColor(.white)
+                .padding(5)
+                .background(cartManager.cartItems.isEmpty ? Color.clear : Color.red)
+                .clipShape(Circle())
+                .offset(x: -10, y: -10)
         }
     }
 }
