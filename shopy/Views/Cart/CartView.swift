@@ -10,33 +10,76 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
-
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(cartManager.cartItems) { cartItem in
-                    HStack {
-                        Text(cartItem.product.title)
-                        Spacer()
-                        Text("Quantity: \(cartItem.quantity)")
-                        Text("Price: $ \(cartItem.product.price)")
-                    }
-                    // Here you can add more details or controls for each cart item
-                }
-                .onDelete(perform: removeItems)  // Enables swipe to delete functionality
-            }
-            .navigationTitle("Shopping Cart")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
-                        // Add action to dismiss the view
+        ZStack(alignment: Alignment.topTrailing) {
+            // Semi-transparent background that covers the whole screen
+            Color.black.opacity(0.5)
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    // This gesture handler will dismiss the cart when tapping outside the cart area
+                    withAnimation(.easeInOut(duration: 0.3)) {
                         cartManager.isCartVisible = false
                     }
                 }
+            
+            // Main cart content container
+            VStack(alignment: .leading, spacing: 0) {
+                // Spacer to push the content down a bit from the top
+                Spacer().frame(height: 40) // Adjust the height here to move content down
+                
+                // "X" Close button within a horizontal stack
+                HStack {
+                    Button(action: {
+                        withAnimation {
+                            cartManager.isCartVisible = false // Toggles the cart visibility
+                        }
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black.opacity(0.6))
+                            .clipShape(Circle())
+                    }
+                    .padding(.leading, 20) // Left padding to avoid the edge
+                    
+                    Spacer() // Pushes the button to the left
+                }
+                
+                // ScrollView for cart items
+                ScrollView {
+                    VStack {
+                        ForEach(cartManager.cartItems) { cartItem in
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(cartItem.product.title)
+                                        .font(.headline)
+                                    Text("Price: $\(cartItem.product.price, specifier: "%.2f")")
+                                        .font(.subheadline)
+                                }
+                                
+                                Spacer()
+                                
+                                Text("Qty: \(cartItem.quantity)")
+                                    .font(.subheadline)
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                        }
+                        .onDelete(perform: removeItems)
+                    }
+                }
             }
+            .frame(width: UIScreen.main.bounds.width) // Makes the cart content use the full width of the screen
+            .background(Color.white) // Background color of the cart content
+            .cornerRadius(20) // Rounds the corners of the cart content area
+            .shadow(radius: 5) // Adds a shadow for visual depth
+            .offset(x: cartManager.isCartVisible ? 0 : UIScreen.main.bounds.width, y: 0) // Controls the slide-in animation
+            .animation(.easeInOut(duration: 0.3), value: cartManager.isCartVisible) // Animates the slide-in effect
+            .edgesIgnoringSafeArea(.all) // Ensures the cart content covers the entire screen, including the safe area
         }
     }
-
+    
     func removeItems(at offsets: IndexSet) {
         cartManager.cartItems.remove(atOffsets: offsets)
     }

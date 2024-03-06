@@ -57,8 +57,9 @@ struct ProductDetailView: View {
             // Add a ToolbarItem for the cart icon
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    // Toggle the cart visibility
-                    cartManager.isCartVisible.toggle()
+                    withAnimation { // Ensure this withAnimation wraps the visibility toggle
+                        cartManager.isCartVisible.toggle()
+                    }
                 }) {
                     Image(systemName: "cart")
                     Text("\(cartManager.cartItems.count)")

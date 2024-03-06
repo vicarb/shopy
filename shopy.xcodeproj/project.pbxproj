@@ -120,6 +120,7 @@
 		B327F6572B9600DB003ECB20 /* shopy */ = {
 			isa = PBXGroup;
 			children = (
+				B3BB66192B98BE24000A44DF /* ViewModifiers */,
 				B3BB66142B98B7D2000A44DF /* Managers */,
 				B3A0AE292B965B46002C4A0F /* Utilities */,
 				B3A0AE1A2B963678002C4A0F /* Models */,
@@ -252,6 +253,13 @@
 				B3BB66152B98B7E3000A44DF /* CartManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		B3BB66192B98BE24000A44DF /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
