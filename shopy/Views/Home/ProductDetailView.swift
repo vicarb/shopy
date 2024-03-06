@@ -1,42 +1,22 @@
-//
-//  ProductDetailView.swift
-//  shopy
-//
-//  Created by Victor Cardenas Bahamonde on 04-03-24.
-//
-
 import Foundation
 import SwiftUI
 
 struct ProductDetailView: View {
     var product: Product
-    // Placeholder state variables for size and color selection
-    @State private var selectedSize: String = "Select Size"
-    @State private var selectedColor: String = "Select Color"
+    @EnvironmentObject var cartManager: CartManager  // Access CartManager
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Image display adjusted for a single image
-                AsyncImage(url: URL(string: product.imageUrl)) { phase in
-                    switch phase {
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: .infinity, maxHeight: 300)
-                                .cornerRadius(10)
-                        case .failure(_):
-                            Color.gray.opacity(0.3) // Placeholder for a more graceful handling of loading/error states
-                                .frame(height: 300)
-                                .cornerRadius(10)
-                        case .empty:
-                            Color.gray.opacity(0.3) // Placeholder for loading state
-                                .frame(height: 300)
-                                .cornerRadius(10)
-                        @unknown default:
-                            EmptyView()
-                    }
+                AsyncImage(url: URL(string: product.imageUrl)) { image in
+                    image.resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(maxWidth: .infinity, maxHeight: 300)
+                         .cornerRadius(10)
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                        .frame(height: 300)
+                        .cornerRadius(10)
                 }
                 .padding(.top, 60)
 
@@ -56,25 +36,39 @@ struct ProductDetailView: View {
                 }
                 .padding([.horizontal, .bottom])
 
-                // "Add to Cart" Button
                 Button(action: {
-                    // Action to handle adding product to cart
-                    print("Add to Cart tapped")
+                    // Action to add the product to the cart
+                    cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
                 }) {
                     Text("Add to Cart")
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                         .padding()
-                        .background(Color.white)
+                        .background(Color.green)
                         .cornerRadius(8)
                 }
                 .padding(.top, 10)
-
-                // Future: Here you would include Picker for size and color
             }
             .padding(.horizontal)
         }
-        .background(Color.skyBlue) // Assuming skyBlue is part of your vibrant color scheme
+        .background(Color.skyBlue)
         .edgesIgnoringSafeArea(.all)
         .navigationBarTitle(Text(product.title), displayMode: .inline)
+        .toolbar {
+            // Add a ToolbarItem for the cart icon
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    // Toggle the cart visibility
+                    cartManager.isCartVisible.toggle()
+                }) {
+                    Image(systemName: "cart")
+                    Text("\(cartManager.cartItems.count)")
+                        .foregroundColor(.white)
+                        .padding(5)
+                        .background(cartManager.cartItems.isEmpty ? Color.clear : Color.red) // Conditionally show a red background if there are items in the cart
+                        .clipShape(Circle())
+                        .offset(x: -10, y: -10)
+                }
+            }
+        }
     }
 }

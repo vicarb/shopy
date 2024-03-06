@@ -24,6 +24,9 @@
 		B3A0AE2D2B965BF9002C4A0F /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE2C2B965BF9002C4A0F /* Color+Extensions.swift */; };
 		B3A0AE2F2B965D23002C4A0F /* ProductCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE2E2B965D23002C4A0F /* ProductCard.swift */; };
 		B3A0AE312B96ADEF002C4A0F /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0AE302B96ADEF002C4A0F /* ProductDetailView.swift */; };
+		B3BB66132B98B75F000A44DF /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66122B98B75F000A44DF /* CartItem.swift */; };
+		B3BB66162B98B7E3000A44DF /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66152B98B7E3000A44DF /* CartManager.swift */; };
+		B3BB66182B98BA00000A44DF /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66172B98BA00000A44DF /* CartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,9 @@
 		B3A0AE2C2B965BF9002C4A0F /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		B3A0AE2E2B965D23002C4A0F /* ProductCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCard.swift; sourceTree = "<group>"; };
 		B3A0AE302B96ADEF002C4A0F /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
+		B3BB66122B98B75F000A44DF /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
+		B3BB66152B98B7E3000A44DF /* CartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
+		B3BB66172B98BA00000A44DF /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +120,7 @@
 		B327F6572B9600DB003ECB20 /* shopy */ = {
 			isa = PBXGroup;
 			children = (
+				B3BB66142B98B7D2000A44DF /* Managers */,
 				B3A0AE292B965B46002C4A0F /* Utilities */,
 				B3A0AE1A2B963678002C4A0F /* Models */,
 				B3A0AE182B963662002C4A0F /* ViewModels */,
@@ -191,6 +198,7 @@
 		B3A0AE162B963655002C4A0F /* Cart */ = {
 			isa = PBXGroup;
 			children = (
+				B3BB66172B98BA00000A44DF /* CartView.swift */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -217,6 +225,7 @@
 				B3A0AE1D2B963693002C4A0F /* User.swift */,
 				B3A0AE1F2B9636A4002C4A0F /* Order.swift */,
 				B3A0AE212B96375E002C4A0F /* Category.swift */,
+				B3BB66122B98B75F000A44DF /* CartItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -235,6 +244,14 @@
 				B3A0AE2C2B965BF9002C4A0F /* Color+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B3BB66142B98B7D2000A44DF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B3BB66152B98B7E3000A44DF /* CartManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BB66182B98BA00000A44DF /* CartView.swift in Sources */,
 				B3A0AE1E2B963693002C4A0F /* User.swift in Sources */,
 				B327F65B2B9600DB003ECB20 /* ContentView.swift in Sources */,
 				B3A0AE202B9636A4002C4A0F /* Order.swift in Sources */,
@@ -376,8 +394,10 @@
 				B3A0AE2D2B965BF9002C4A0F /* Color+Extensions.swift in Sources */,
 				B3A0AE262B963876002C4A0F /* HomeView.swift in Sources */,
 				B3A0AE1C2B963688002C4A0F /* Product.swift in Sources */,
+				B3BB66162B98B7E3000A44DF /* CartManager.swift in Sources */,
 				B3A0AE222B96375E002C4A0F /* Category.swift in Sources */,
 				B3A0AE282B96388C002C4A0F /* ProductRow.swift in Sources */,
+				B3BB66132B98B75F000A44DF /* CartItem.swift in Sources */,
 				B3A0AE2F2B965D23002C4A0F /* ProductCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
