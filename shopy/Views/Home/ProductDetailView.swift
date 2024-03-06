@@ -18,9 +18,8 @@ struct ProductDetailView: View {
                         .frame(height: 300)
                         .cornerRadius(10)
                 }
-                // Increase the top padding to move content down, away from the notch.
-                // Consider using GeometryReader if you need to adjust based on device specifics.
-                .padding(.top, 100) // Increased padding at the top
+                // Adjust top padding to ensure content doesn't start too close to the notch
+                .padding(.top, 100)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(product.title)
@@ -38,16 +37,24 @@ struct ProductDetailView: View {
                 }
                 .padding([.horizontal, .bottom])
 
+                // Enhanced "Add to Cart" button
                 Button(action: {
-                    withAnimation {
-                        cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
-                    }
+                    // Action to add the product to the cart
+                    cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
                 }) {
-                    Text("Add to Cart")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.green)
-                        .cornerRadius(8)
+                    HStack {
+                        Image(systemName: "cart.badge.plus")
+                            .font(.title2)
+                        Text("Add to Cart")
+                            .fontWeight(.semibold)
+                            .font(.title2)
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding()
+                    .foregroundColor(.appSecondary)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.appPrimary, Color.appPrimary.opacity(1)]), startPoint: .leading, endPoint: .trailing))
+                    .cornerRadius(40)
+                    .shadow(radius: 5)
                 }
                 .padding(.top, 10)
             }
@@ -62,7 +69,7 @@ struct ProductDetailView: View {
             }
         }
     }
-    
+
     private var cartButton: some View {
         Button(action: {
             withAnimation {
