@@ -11,68 +11,63 @@ import SwiftUI
 struct CheckoutView: View {
     @EnvironmentObject var cartManager: CartManager
 
-    // Placeholder state variables for checkout details
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            // Adjusts for the safe area, particularly at the top
+            Spacer().frame(height: UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 + 20)
+            
+            Text("Checkout")
+                .font(.largeTitle)
+                .padding(.bottom)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    orderSummary
+                    
+                    // Shipping Information
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Shipping Information:")
+                            .font(.title2)
+                            .bold()
+                        TextField("Shipping Address", text: $shippingAddress)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    
+                    // Payment Details
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Payment Details:")
+                            .font(.title2)
+                            .bold()
+                        TextField("Credit Card Number", text: $creditCardNumber)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        TextField("Expiry Date (MM/YY)", text: $expiryDate)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        TextField("CVV", text: $cvv)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                    .padding(.top)
+                }
+            }
+
+            Spacer()
+
+            Button("Place Order") {
+                // Place order action
+            }
+            .padding()
+            .foregroundColor(.white)
+            .background(Color.blue)
+            .cornerRadius(8)
+        }
+        .padding(.horizontal)
+        .edgesIgnoringSafeArea(.all) // To ensure background color fills the entire screen area
+    }
+    
     @State private var shippingAddress = ""
     @State private var creditCardNumber = ""
     @State private var expiryDate = ""
     @State private var cvv = ""
     @State private var showingConfirmationDialog = false
-
-    var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Checkout")
-                    .font(.largeTitle)
-                    .padding(.bottom)
-
-                orderSummary
-
-                // Shipping Information
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Shipping Information:")
-                        .font(.title2)
-                        .bold()
-                    TextField("Shipping Address", text: $shippingAddress)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                // Payment Details
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Payment Details:")
-                        .font(.title2)
-                        .bold()
-                    TextField("Credit Card Number", text: $creditCardNumber)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    TextField("Expiry Date (MM/YY)", text: $expiryDate)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                    TextField("CVV", text: $cvv)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                .padding(.top)
-
-                Spacer()
-
-                Button("Place Order") {
-                    showingConfirmationDialog = true
-                }
-                .padding()
-                .foregroundColor(.white)
-                .background(Color.blue)
-                .cornerRadius(8)
-            }
-            .padding()
-        }
-        .alert(isPresented: $showingConfirmationDialog) {
-            Alert(
-                title: Text("Confirm Order"),
-                message: Text("Do you want to place your order?"),
-                primaryButton: .destructive(Text("Confirm")) {
-                    placeOrder()
-                },
-                secondaryButton: .cancel()
-            )
-        }
-    }
 
     private var orderSummary: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -103,8 +98,6 @@ struct CheckoutView: View {
     }
 
     private func placeOrder() {
-        // Placeholder for order processing logic
-        print("Processing order for \(cartManager.cartItems.count) items with total: $\(cartManager.total)")
-        // Integrate with your backend or payment processor here
+        // Placeholder function for order placement logic
     }
 }
