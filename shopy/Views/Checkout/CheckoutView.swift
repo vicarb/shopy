@@ -11,20 +11,47 @@ import SwiftUI
 struct CheckoutView: View {
     @EnvironmentObject var cartManager: CartManager
 
+    @State private var shippingAddress: String = ""
+    @State private var creditCardNumber: String = ""
+    @State private var expiryDate: String = ""
+    @State private var cvv: String = ""
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // Adjusts for the safe area, particularly at the top
-            Spacer().frame(height: UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0 + 20)
-            
+        VStack {
             Text("Checkout")
                 .font(.largeTitle)
-                .padding(.bottom)
-
-            ScrollView {
+                .fontWeight(.bold)
+                .padding(.top, 50) // Adjust this value if needed to push the text further down from the notch
+                .padding(.bottom, 20)
+            
+            ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 20) {
-                    orderSummary
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Order Summary:")
+                            .font(.title2)
+                            .bold()
+                        
+                        ForEach(cartManager.cartItems) { item in
+                            HStack {
+                                Text(item.product.title)
+                                    .fontWeight(.semibold)
+                                Spacer()
+                                Text("x\(item.quantity)")
+                            }
+                        }
+                        
+                        HStack {
+                            Text("Total:")
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text("$\(cartManager.total, specifier: "%.2f")")
+                                .fontWeight(.bold)
+                        }
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(12)
                     
-                    // Shipping Information
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Shipping Information:")
                             .font(.title2)
@@ -33,7 +60,6 @@ struct CheckoutView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                     
-                    // Payment Details
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Payment Details:")
                             .font(.title2)
@@ -47,57 +73,26 @@ struct CheckoutView: View {
                     }
                     .padding(.top)
                 }
+                .padding([.leading, .trailing])
             }
+            .padding(.bottom, 20)
 
-            Spacer()
-
-            Button("Place Order") {
-                // Place order action
+            Button(action: placeOrder) {
+                Text("Place Order")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .cornerRadius(10)
             }
-            .padding()
-            .foregroundColor(.white)
-            .background(Color.blue)
-            .cornerRadius(8)
+            .padding([.leading, .trailing])
+            .padding(.bottom, 20) // Ensures "Place Order" is not too close to the bottom edge or home indicator
         }
-        .padding(.horizontal)
-        .edgesIgnoringSafeArea(.all) // To ensure background color fills the entire screen area
-    }
-    
-    @State private var shippingAddress = ""
-    @State private var creditCardNumber = ""
-    @State private var expiryDate = ""
-    @State private var cvv = ""
-    @State private var showingConfirmationDialog = false
-
-    private var orderSummary: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Order Summary:")
-                .font(.title2)
-                .bold()
-
-            ForEach(cartManager.cartItems) { item in
-                HStack {
-                    Text(item.product.title)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Text("x\(item.quantity)")
-                }
-            }
-            
-            HStack {
-                Text("Total:")
-                    .fontWeight(.bold)
-                Spacer()
-                Text("$\(cartManager.total, specifier: "%.2f")")
-                    .fontWeight(.bold)
-            }
-        }
-        .padding()
-        .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(12)
+        .edgesIgnoringSafeArea(.all) // Ensures the background extends behind the status bar, notch, and home indicator
     }
 
     private func placeOrder() {
-        // Placeholder function for order placement logic
+        print("Order placed for \(cartManager.cartItems.count) items with a total cost of $\(cartManager.total)")
+        // Implement the functionality to process the order here
     }
 }
