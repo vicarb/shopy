@@ -27,6 +27,7 @@
 		B3BB66132B98B75F000A44DF /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66122B98B75F000A44DF /* CartItem.swift */; };
 		B3BB66162B98B7E3000A44DF /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66152B98B7E3000A44DF /* CartManager.swift */; };
 		B3BB66182B98BA00000A44DF /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB66172B98BA00000A44DF /* CartView.swift */; };
+		B3BB661F2B9945DF000A44DF /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BB661E2B9945DF000A44DF /* CheckoutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		B3BB66122B98B75F000A44DF /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
 		B3BB66152B98B7E3000A44DF /* CartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
 		B3BB66172B98BA00000A44DF /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		B3BB661E2B9945DF000A44DF /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 		B3A0AE122B963632002C4A0F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B3BB661D2B9945D2000A44DF /* Checkout */,
 				B3A0AE172B963659002C4A0F /* Common */,
 				B3A0AE162B963655002C4A0F /* Cart */,
 				B3A0AE152B963650002C4A0F /* User */,
@@ -260,6 +263,14 @@
 			children = (
 			);
 			path = ViewModifiers;
+			sourceTree = "<group>";
+		};
+		B3BB661D2B9945D2000A44DF /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				B3BB661E2B9945DF000A44DF /* CheckoutView.swift */,
+			);
+			path = Checkout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,6 +417,7 @@
 				B3A0AE222B96375E002C4A0F /* Category.swift in Sources */,
 				B3A0AE282B96388C002C4A0F /* ProductRow.swift in Sources */,
 				B3BB66132B98B75F000A44DF /* CartItem.swift in Sources */,
+				B3BB661F2B9945DF000A44DF /* CheckoutView.swift in Sources */,
 				B3A0AE2F2B965D23002C4A0F /* ProductCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
