@@ -18,7 +18,6 @@ struct ProductDetailView: View {
                         .frame(height: 300)
                         .cornerRadius(10)
                 }
-                // Adjust top padding to ensure content doesn't start too close to the notch
                 .padding(.top, 100)
 
                 VStack(alignment: .leading, spacing: 8) {
@@ -37,15 +36,15 @@ struct ProductDetailView: View {
                 }
                 .padding([.horizontal, .bottom])
 
-                // Enhanced "Add to Cart" button
                 Button(action: {
-                    // Action to add the product to the cart
-                    cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
+                    if !isProductInCart() {
+                        addToCart()
+                    }
                 }) {
                     HStack {
                         Image(systemName: "cart.badge.plus")
                             .font(.title2)
-                        Text("Add to Cart")
+                        Text(isProductInCart() ? "Added to Cart" : "Add to Cart")
                             .fontWeight(.semibold)
                             .font(.title2)
                     }
@@ -84,5 +83,13 @@ struct ProductDetailView: View {
                 .clipShape(Circle())
                 .offset(x: -10, y: -10)
         }
+    }
+
+    private func addToCart() {
+        cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
+    }
+
+    private func isProductInCart() -> Bool {
+        return cartManager.cartItems.contains(where: { $0.product.id == product.id })
     }
 }
