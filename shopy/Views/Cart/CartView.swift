@@ -10,108 +10,77 @@ import SwiftUI
 
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
-    @State private var showingCheckout = false
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Color.black.opacity(0.5)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        cartManager.isCartVisible = false
-                    }
-                }
-            
-            VStack(alignment: .leading, spacing: 0) {
-                Spacer().frame(height: 40)
-                
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        cartManager.isCartVisible = false
-                    }
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.black.opacity(0.6))
-                        .clipShape(Circle())
-                }
-                .padding(.leading, 20)
-                .padding(.top, 20)
-                
-                ScrollView {
-                    VStack(spacing: 15) {
-                        ForEach(cartManager.cartItems) { cartItem in
-                            HStack {
-                                AsyncImage(url: URL(string: cartItem.product.imageUrl)) { image in
-                                    image.resizable()
-                                } placeholder: {
-                                    Color.gray.opacity(0.3)
-                                }
-                                .frame(width: 60, height: 60)
-                                .cornerRadius(10)
-                                
-                                VStack(alignment: .leading) {
-                                    Text(cartItem.product.title)
-                                        .font(.headline)
-                                    Text("Price: $\(cartItem.product.price, specifier: "%.2f")")
-                                        .font(.subheadline)
-                                }
-                                
-                                Spacer()
-                                
-                                Text("Qty: \(cartItem.quantity)")
-                                    .font(.subheadline)
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(cartManager.cartItems) { item in
+                        HStack {
+                            AsyncImage(url: URL(string: item.imageUrl)) { image in
+                                image.resizable()
+                                     .aspectRatio(contentMode: .fill)
+                            } placeholder: {
+                                Color.gray.opacity(0.3)
                             }
-                            .padding()
-                            .background(Color(UIColor.systemBackground))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .shadow(radius: 2)
+                            .frame(width: 60, height: 60)
+                            .cornerRadius(8)
+
+                            VStack(alignment: .leading) {
+                                Text(item.title)
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                Text("$\(item.price, specifier: "%.2f")")
+                                    .font(.subheadline)
+                                    .foregroundColor(.black)
+                            }
+
+                            Spacer()
                         }
-                        .onDelete(perform: removeItems)
                     }
-                    .padding(.top)
-                }
-                .padding([.leading, .trailing, .bottom], 20)
+                    .onDelete(perform: deleteItems)
 
-                Button("Proceed to Checkout") {
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        showingCheckout = true
+                    // Display the total price
+                    HStack {
+                        Text("Total Price:")
+                            .font(.headline)
+                        Spacer()
+                        Text("$\(cartManager.totalPrice, specifier: "%.2f")")
+                            .font(.headline)
                     }
                 }
-                .foregroundColor(.white)
+                
+                // "Proceed to Checkout" button
+                Button(action: {
+                    print("Proceeding to checkout")
+                    // Add your checkout logic here
+                }) {
+                    Text("Proceed to Checkout")
+                        .fontWeight(.semibold)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .foregroundColor(.white)
+                        .background(Color.blue) // Adjust this color as needed
+                        .cornerRadius(10)
+                }
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .cornerRadius(10)
-                .padding(.horizontal)
-                .padding(.bottom, 30)
             }
-            .frame(width: UIScreen.main.bounds.width)
-            .background(Color.white)
-            .cornerRadius(20)
-            .shadow(radius: 5)
-            .offset(x: cartManager.isCartVisible ? 0 : UIScreen.main.bounds.width, y: 0)
-            .animation(.easeInOut(duration: 0.3), value: showingCheckout)
-            .edgesIgnoringSafeArea(.all)
-
-            if showingCheckout {
-                CheckoutView()
-                    .transition(.move(edge: .trailing))
-                    .frame(width: UIScreen.main.bounds.width) // Use full width
-                    .background(Color.white)
-                    .cornerRadius(0) // Optional: Adjust as needed for full-screen
-                    .shadow(radius: 5)
-                    .offset(x: showingCheckout ? 0 : UIScreen.main.bounds.width, y: 0)
-                    .environmentObject(cartManager)
-                    .zIndex(1) // Ensure CheckoutView layers above the CartView
-                    .edgesIgnoringSafeArea(.all) // Ensure it covers the entire screen
+            .navigationTitle("Cart")
+            .toolbar {
+                EditButton()
             }
+            .listStyle(PlainListStyle())
         }
-        .animation(.easeInOut(duration: 0.3), value: showingCheckout)
     }
     
-    func removeItems(at offsets: IndexSet) {
+    func deleteItems(at offsets: IndexSet) {
         cartManager.cartItems.remove(atOffsets: offsets)
+    }
+}
+
+struct CartView_Previews: PreviewProvider {
+    static var previews: some View {
+        CartView()
+            .environmentObject(CartManager())
     }
 }

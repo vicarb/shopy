@@ -6,13 +6,17 @@
 //
 
 import Foundation
-
 import Combine
 
 class ProductListViewModel: ObservableObject {
     @Published var products: [Product] = []
 
-    func fetchProducts() {
+    init() {
+        fetchProductsIfNeeded()
+    }
+
+    func fetchProductsIfNeeded() {
+        // Early return if URL is incorrect to avoid unnecessary operations
         guard let url = URL(string: "https://api-hander-atlas-bw6cnnbgua-tl.a.run.app/products") else {
             print("Invalid URL")
             return
@@ -21,15 +25,20 @@ class ProductListViewModel: ObservableObject {
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let data = data, error == nil {
                 do {
-                    let products = try JSONDecoder().decode([Product].self, from: data)
+                    let fetchedProducts = try JSONDecoder().decode([Product].self, from: data)
                     DispatchQueue.main.async {
-                        self?.products = products
+                        print("Fetched products: \(fetchedProducts)")
+                        self?.products = fetchedProducts
                     }
                 } catch {
-                    print("Decoding error: \(error)")
+                    DispatchQueue.main.async {
+                        print("Decoding error: \(error)")
+                    }
                 }
             } else {
-                print("Fetch error: \(error?.localizedDescription ?? "Unknown error")")
+                DispatchQueue.main.async {
+                    print("Fetch error: \(error?.localizedDescription ?? "Unknown error")")
+                }
             }
         }.resume()
     }

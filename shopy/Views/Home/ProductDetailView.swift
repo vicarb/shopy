@@ -36,24 +36,18 @@ struct ProductDetailView: View {
                 }
                 .padding([.horizontal, .bottom])
 
+                // Add to Cart Button
                 Button(action: {
-                    if !isProductInCart() {
-                        addToCart()
-                    }
+                    addToCart()
                 }) {
-                    HStack {
-                        Image(systemName: "cart.badge.plus")
-                            .font(.title2)
-                        Text(isProductInCart() ? "Added to Cart" : "Add to Cart")
-                            .fontWeight(.semibold)
-                            .font(.title2)
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding()
-                    .foregroundColor(.appSecondary)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.appPrimary, Color.appPrimary.opacity(1)]), startPoint: .leading, endPoint: .trailing))
-                    .cornerRadius(40)
-                    .shadow(radius: 5)
+                    Text("Add to Cart")
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .padding()
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.appPrimary, Color.appSecondary]), startPoint: .leading, endPoint: .trailing))
+                        .cornerRadius(40)
+                        .shadow(radius: 5)
                 }
                 .padding(.top, 10)
             }
@@ -62,34 +56,14 @@ struct ProductDetailView: View {
         .background(Color.skyBlue)
         .edgesIgnoringSafeArea(.all)
         .navigationBarTitle(Text(product.title), displayMode: .inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                cartButton
-            }
-        }
-    }
-
-    private var cartButton: some View {
-        Button(action: {
-            withAnimation {
-                cartManager.isCartVisible.toggle()
-            }
-        }) {
-            Image(systemName: "cart")
-            Text("\(cartManager.cartItems.count)")
-                .foregroundColor(.white)
-                .padding(5)
-                .background(cartManager.cartItems.isEmpty ? Color.clear : Color.red)
-                .clipShape(Circle())
-                .offset(x: -10, y: -10)
-        }
     }
 
     private func addToCart() {
-        cartManager.addToCart(product: product, selectedSize: nil, selectedColor: nil)
+        cartManager.addToCart(product: product)
+        print("Product added to cart: \(product.title)")
     }
 
     private func isProductInCart() -> Bool {
-        return cartManager.cartItems.contains(where: { $0.product.id == product.id })
+        cartManager.cartItems.contains(where: { $0.id == product.id })
     }
 }
