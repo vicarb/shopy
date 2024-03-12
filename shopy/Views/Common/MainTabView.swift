@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var cartManager: CartManager // Ensure cartManager is injected at the top level of your app
+    @Binding var isCheckingOut: Bool // Add a Binding to track the checkout state
+    @EnvironmentObject var cartManager: CartManager
 
     var body: some View {
         TabView {
@@ -18,11 +19,11 @@ struct MainTabView: View {
                     Label("Products", systemImage: "list.bullet")
                 }
 
-            CartView()
+            CartView(isCheckingOut: $isCheckingOut) // Pass the binding to CartView
                 .tabItem {
                     Label("Cart", systemImage: "cart.fill")
                 }
-                .badge(cartManager.totalQuantity) // This shows a badge with the total quantity
+                .badge(cartManager.totalQuantity)
         }
     }
 }

@@ -16,7 +16,9 @@ enum CartNavigationDestination {
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
     @State private var navigationPath = NavigationPath()
-
+    @Binding var isCheckingOut: Bool
+    
+    
     var body: some View {
         NavigationStack(path: $navigationPath) {
             VStack {
@@ -63,6 +65,7 @@ struct CartView: View {
                 }
                 
                 Button("Proceed to Checkout") {
+                    isCheckingOut = true
                     navigationPath.append(CartNavigationDestination.checkout)
                 }
                 .buttonStyle(.borderedProminent)

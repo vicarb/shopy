@@ -1,95 +1,120 @@
 import Foundation
-import Foundation
 import SwiftUI
 
 struct CheckoutView: View {
     @EnvironmentObject var cartManager: CartManager
-    
-    // Define state variables for user input
-    @State private var fullName = ""
-    @State private var email = ""
-    @State private var shippingAddress = ""
-    @State private var city = ""
-    @State private var zipCode = ""
-    
+
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                Text("Checkout")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Group {
-                    Text("Customer Information")
-                        .font(.headline)
-                    TextField("Full Name", text: $fullName)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Email Address", text: $email)
-                        .textFieldStyle(.roundedBorder)
-                        .keyboardType(.emailAddress)
-                }
-                
-                Group {
-                    Text("Shipping Address")
-                        .font(.headline)
-                    TextField("Address", text: $shippingAddress)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("City", text: $city)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("ZIP Code", text: $zipCode)
-                        .textFieldStyle(.roundedBorder)
-                        .keyboardType(.numberPad)
-                }
-                
-                Group {
-                    Text("Payment Method")
-                        .font(.headline)
-                    Button(action: {
-                        // Trigger third-party payment process for credit/debit card
-                    }) {
-                        Text("Pay with Credit/Debit Card")
-                            .fontWeight(.semibold)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.vertical, 2)
+        VStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text("Checkout")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
                     
-                    Button(action: {
-                        // Trigger third-party payment process for other payment options
-                    }) {
-                        Text("Other Payment Options")
-                            .fontWeight(.semibold)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.vertical, 2)
+                    // Customer Information Section
+                    customerInformationSection
+                    // Shipping Address Section
+                    shippingAddressSection
+                    // Payment Method Section
+                    paymentMethodSection
                 }
-                
-                Text("Total Amount: $\(cartManager.totalPrice, specifier: "%.2f")")
-                    .font(.title)
-                
+                .padding(.bottom, 100) // Extra padding to ensure nothing is behind the bottom tab
+            }
+            .padding(.horizontal)
+            .navigationBarTitle("Checkout", displayMode: .inline)
+
+            // Bottom tab for the total amount
+            totalAmountBottomTab
+        }
+        .background(Color(UIColor.systemBackground)) // Ensures the background extends to the bottom safe area
+        .edgesIgnoringSafeArea(.bottom) // Allows the bottom tab to extend into the safe area
+    }
+
+    // MARK: - Customer Information Section
+    var customerInformationSection: some View {
+        Group {
+            Text("Customer Information")
+                .font(.headline)
+            TextField("Full Name", text: .constant(""))
+                .textFieldStyle(.roundedBorder)
+            TextField("Email Address", text: .constant(""))
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.emailAddress)
+        }
+    }
+
+    // MARK: - Shipping Address Section
+    var shippingAddressSection: some View {
+        Group {
+            Text("Shipping Address")
+                .font(.headline)
+            TextField("Address", text: .constant(""))
+                .textFieldStyle(.roundedBorder)
+            TextField("City", text: .constant(""))
+                .textFieldStyle(.roundedBorder)
+            TextField("ZIP Code", text: .constant(""))
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.numberPad)
+        }
+    }
+
+    // MARK: - Payment Method Section
+    var paymentMethodSection: some View {
+        Group {
+            Text("Payment Method")
+                .font(.headline)
+            Button("Pay with Credit/Debit Card") {
+                // Implementation for the credit/debit card payment
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(.vertical, 2)
+            Button("Other Payment Options") {
+                // Implementation for other payment options
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(.vertical, 2)
+        }
+    }
+
+    // MARK: - Total Amount Bottom Tab
+    var totalAmountBottomTab: some View {
+        VStack(spacing: 10) {
+            Divider()
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Total Amount:")
+                        .font(.headline)
+                        .foregroundColor(.secondary)
+                    
+                    Text("$\(cartManager.totalPrice, specifier: "%.2f")")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.primary)
+                }
+
+                Spacer()
+
                 Button(action: {
-                    // Final confirmation and process checkout
-                    print("Finalizing checkout")
+                    // Action to confirm payment
                 }) {
-                    Text("Confirm Order")
+                    Text("Confirm Payment")
                         .fontWeight(.semibold)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green)
                         .foregroundColor(.white)
+                        .padding()
+                        .frame(height: 50) // Ensuring the button has a fixed height
+                        .background(Color.accentColor) // Using accent color for the button
                         .cornerRadius(10)
                 }
-                .padding(.top, 20)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.bottom, 50)
+            .background(Color(UIColor.systemGroupedBackground)) // Grouped background for distinction
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous)) // Rounded corners
+            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: -1) // Subtle top shadow
         }
-        .navigationBarTitle("Checkout", displayMode: .inline)
+        .edgesIgnoringSafeArea(.bottom) // Ensuring it extends to the bottom edge
     }
+
 }
