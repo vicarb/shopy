@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct MainTabView: View {
-    @Binding var isCheckingOut: Bool // Add a Binding to track the checkout state
+    
     @EnvironmentObject var cartManager: CartManager
 
     var body: some View {
@@ -19,7 +19,7 @@ struct MainTabView: View {
                     Label("Products", systemImage: "list.bullet")
                 }
 
-            CartView(isCheckingOut: $isCheckingOut) // Pass the binding to CartView
+            CartView( ) // Pass the binding to CartView
                 .tabItem {
                     Label("Cart", systemImage: "cart.fill")
                 }

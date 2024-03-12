@@ -1,6 +1,8 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
 struct HomeView: View {
     @EnvironmentObject var viewModel: ProductListViewModel
 
@@ -10,7 +12,7 @@ struct HomeView: View {
         NavigationView {
             ScrollView {
                 LazyVGrid(columns: gridLayout, spacing: 20) {
-                    ForEach(viewModel.products) { product in
+                    ForEach(viewModel.products, id: \.id) { product in
                         NavigationLink(destination: ProductDetailView(product: product)) {
                             ProductCard(product: product)
                         }
@@ -18,7 +20,7 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
             }
-            .background(Color("backgroundColor")) // Ensure you have this color defined in your asset catalog
+            .background(Color("backgroundColor")) // Ensure this color is defined in your assets
             .navigationTitle("Products")
             .onAppear {
                 viewModel.fetchProductsIfNeeded()

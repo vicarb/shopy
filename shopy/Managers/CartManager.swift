@@ -9,6 +9,7 @@ import Foundation
 
 class CartManager: ObservableObject {
     @Published var cartItems: [Product] = []
+    @Published var isCheckingOut = false
     
     // Add a computed property to calculate the total quantity
     var totalQuantity: Int {

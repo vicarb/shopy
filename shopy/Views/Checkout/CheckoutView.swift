@@ -1,36 +1,30 @@
-import Foundation
 import SwiftUI
 
+// CheckoutView
 struct CheckoutView: View {
     @EnvironmentObject var cartManager: CartManager
-
+    
     var body: some View {
-        VStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Checkout")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                    
-                    // Customer Information Section
-                    customerInformationSection
-                    // Shipping Address Section
-                    shippingAddressSection
-                    // Payment Method Section
-                    paymentMethodSection
-                }
-                .padding(.bottom, 100) // Extra padding to ensure nothing is behind the bottom tab
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Checkout")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                customerInformationSection
+                shippingAddressSection
+                paymentMethodSection
             }
-            .padding(.horizontal)
-            .navigationBarTitle("Checkout", displayMode: .inline)
-
-            // Bottom tab for the total amount
-            totalAmountBottomTab
+            .padding(.bottom, 100)
         }
-        .background(Color(UIColor.systemBackground)) // Ensures the background extends to the bottom safe area
-        .edgesIgnoringSafeArea(.bottom) // Allows the bottom tab to extend into the safe area
+        .padding(.horizontal)
+        .navigationTitle("Checkout")
+        .navigationBarTitleDisplayMode(.inline)
+        
+        // Bottom tab for the total amount
+        totalAmountBottomTab
     }
-
+    
     // MARK: - Customer Information Section
     var customerInformationSection: some View {
         Group {
@@ -42,8 +36,9 @@ struct CheckoutView: View {
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.emailAddress)
         }
+        .padding(.top)
     }
-
+    
     // MARK: - Shipping Address Section
     var shippingAddressSection: some View {
         Group {
@@ -57,8 +52,9 @@ struct CheckoutView: View {
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.numberPad)
         }
+        .padding(.top)
     }
-
+    
     // MARK: - Payment Method Section
     var paymentMethodSection: some View {
         Group {
@@ -75,8 +71,9 @@ struct CheckoutView: View {
             .buttonStyle(.borderedProminent)
             .padding(.vertical, 2)
         }
+        .padding(.top)
     }
-
+    
     // MARK: - Total Amount Bottom Tab
     var totalAmountBottomTab: some View {
         VStack(spacing: 10) {
@@ -93,9 +90,9 @@ struct CheckoutView: View {
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                 }
-
+                
                 Spacer()
-
+                
                 Button(action: {
                     // Action to confirm payment
                 }) {
@@ -103,18 +100,18 @@ struct CheckoutView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .padding()
-                        .frame(height: 50) // Ensuring the button has a fixed height
-                        .background(Color.accentColor) // Using accent color for the button
+                        .frame(height: 50)
+                        .background(Color.green)
                         .cornerRadius(10)
                 }
             }
             .padding(.horizontal)
             .padding(.bottom, 50)
-            .background(Color(UIColor.systemGroupedBackground)) // Grouped background for distinction
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous)) // Rounded corners
-            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: -1) // Subtle top shadow
+            .background(Color(UIColor.systemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: -1)
         }
-        .edgesIgnoringSafeArea(.bottom) // Ensuring it extends to the bottom edge
+        .edgesIgnoringSafeArea(.bottom)
     }
-
+    
 }
