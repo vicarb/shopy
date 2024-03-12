@@ -8,24 +8,37 @@
 import Foundation
 import SwiftUI
 
+enum CartNavigationDestination {
+    case checkout
+}
+
+// CartView
 struct CartView: View {
     @EnvironmentObject var cartManager: CartManager
+    @State private var navigationPath = NavigationPath()
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navigationPath) {
             VStack {
                 List {
                     ForEach(cartManager.cartItems) { item in
                         HStack {
-                            AsyncImage(url: URL(string: item.imageUrl)) { image in
-                                image.resizable()
-                                     .aspectRatio(contentMode: .fill)
-                            } placeholder: {
-                                Color.gray.opacity(0.3)
+                            AsyncImage(url: URL(string: item.imageUrl)) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image.resizable()
+                                         .aspectRatio(contentMode: .fill)
+                                case .failure:
+                                    Image(systemName: "photo")
+                                @unknown default:
+                                    EmptyView()
+                                }
                             }
                             .frame(width: 60, height: 60)
                             .cornerRadius(8)
-
+                            
                             VStack(alignment: .leading) {
                                 Text(item.title)
                                     .font(.headline)
@@ -34,13 +47,12 @@ struct CartView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.black)
                             }
-
+                            
                             Spacer()
                         }
                     }
                     .onDelete(perform: deleteItems)
-
-                    // Display the total price
+                    
                     HStack {
                         Text("Total Price:")
                             .font(.headline)
@@ -50,37 +62,33 @@ struct CartView: View {
                     }
                 }
                 
-                // "Proceed to Checkout" button
-                Button(action: {
-                    print("Proceeding to checkout")
-                    // Add your checkout logic here
-                }) {
-                    Text("Proceed to Checkout")
-                        .fontWeight(.semibold)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue) // Adjust this color as needed
-                        .cornerRadius(10)
+                Button("Proceed to Checkout") {
+                    navigationPath.append(CartNavigationDestination.checkout)
                 }
+                .buttonStyle(.borderedProminent)
                 .padding()
+                .frame(maxWidth: .infinity)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .padding(.horizontal)
+                
+                Spacer().frame(height: 50)
             }
             .navigationTitle("Cart")
             .toolbar {
                 EditButton()
             }
-            .listStyle(PlainListStyle())
+            .navigationDestination(for: CartNavigationDestination.self) { destination in
+                switch destination {
+                case .checkout:
+                    CheckoutView().environmentObject(cartManager)
+                }
+            }
         }
     }
     
     func deleteItems(at offsets: IndexSet) {
         cartManager.cartItems.remove(atOffsets: offsets)
-    }
-}
-
-struct CartView_Previews: PreviewProvider {
-    static var previews: some View {
-        CartView()
-            .environmentObject(CartManager())
     }
 }
